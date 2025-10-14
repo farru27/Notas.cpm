@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App de Notas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #5f2c82, #49a09d);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      min-height: 100vh;
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 28px;
+    }
+    .contenedor {
+      width: 90%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      margin-top: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 16px;
+      resize: none;
+    }
+    button {
+      background-color: #49a09d;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #357f7b;
+    }
+    .nota {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+      word-wrap: break-word;
+    }
+    .eliminar {
+      background-color: crimson;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📝 Mis Notas</h1>
+
+  <div class="contenedor">
+    <textarea id="notaTexto" placeholder="Escribe tu nota aquí..."></textarea>
+    <button onclick="agregarNota()">Guardar Nota</button>
+    <div id="listaNotas"></div>
+  </div>
+
+  <script>
+    // Cargar notas guardadas
+    window.onload = function () {
+      mostrarNotas();
+    };
+
+    function agregarNota() {
+      const texto = document.getElementById("notaTexto").value.trim();
+      if (texto === "") return alert("Escribe algo antes de guardar.");
+
+      let notas = JSON.parse(localStorage.getItem("notas")) || [];
+      notas.push(texto);
+      localStorage.setItem("notas", JSON.stringify(notas));
+
+      document.getElementById("notaTexto").value = "";
+      mostrarNotas();
+    }
+
+    function mostrarNotas() {
+      const lista = document.getElementById("listaNotas");
+      lista.innerHTML = "";
+      const notas = JSON.parse(localStorage.getItem("notas")) || [];
+
+      notas.forEach((nota, index) => {
+        const div = document.createElement("div");
+        div.className = "nota";
+        div.innerHTML = `
+          ${nota}
+          <button class="eliminar" onclick="eliminarNota(${index})">🗑️</button>
+        `;
+        lista.appendChild(div);
+      });
+    }
+
+    function eliminarNota(index) {
+      let notas = JSON.parse(localStorage.getItem("notas")) || [];
+      notas.splice(index, 1);
+      localStorage.setItem("notas", JSON.stringify(notas));
+      mostrarNotas();
+    }
+  </script>
+</body>
+</html>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
